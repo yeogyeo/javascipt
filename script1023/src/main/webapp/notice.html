@@ -3,65 +3,56 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>집밥을 특별하게, 쿡킷</title>
-		<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 		<link rel="stylesheet" type="text/css" href="css/notice.css">
-		<style>
-			img{width: 50px;}
-		</style>
+		<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 		<script>
 			$(function(){
-				var pageNo = $("#pageNo").val();
-				var s_url = "https://apis.data.go.kr/B551011/PhotoGalleryService1/galleryList1?serviceKey=th25PlFpvNSB8U%2BUCSkRfdp2aeGCNOHqYHTARYpKqHfFcVsftQ%2FhNcv2QU5V7Z6Q0zsz%2BeKVV14kUplH1jmTAg%3D%3D&numOfRows="+pageNo+"&pageNo=1&MobileOS=ETC&MobileApp=AppTest&arrange=A&_type=xml";
+				var s_url = "https://kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.xml?key=f5eef3421c602c6cb7ea224104795888";
 				$.ajax({
-					url:s_url, 			 //요청할 주소
-					type:"get",          //전송방식 - get, post
-					data:"",             //전달할 데이터
-					dataType:"xml",     //요청한 데이터 타입 - xml, json, html, text
-					success:function(data){ //성공 시 
-							alert("데이터 성공!!");
-							console.log(data);
-							var sData = $(data).find("item");
-							console.log(sData.length);
-							var hData = "";
-							for(var i=0;i<sData.length;i++){
-								var galContentId = $(sData[i]).find("galContentId").text();
-								var galTitle = $(sData[i]).find("galTitle").text();
-								var galWebImageUrl = $(sData[i]).find("galWebImageUrl").text();
-								var galCreatedtime = $(sData[i]).find("galCreatedtime").text();
-								var galPhotographyLocation = $(sData[i]).find("galPhotographyLocation").text();
-								console.log("1 : "+galContentId)
-								console.log("2 : "+galTitle)
-								console.log("3 : "+galWebImageUrl)
-								console.log("4 : "+galCreatedtime)
-								console.log("5 : "+galPhotographyLocation)
-								hData += "<tr>";
-								hData += "<td>"+galContentId+"</td>";
-								hData += "<td><a href='#'>"+galTitle+"</a></td>";
-								hData += "<td>"+galCreatedtime+"</td>";
-								hData += "<td>"+galPhotographyLocation+"</td>";
-								hData += "<td><img src='"+galWebImageUrl+"'></td>";
-								hData += "</tr>";
-								
-								
-							}//for
-							$("#cont").html(hData);
+					url:s_url,
+					type:"get",
+					data:"",
+					dataType:"xml",
+					success:function(data){
+						var sData = $(data).find("movie");
+						alert("성공");
+						var hData ="";
+						for(var i=0;i<sData.length;i++){
+							var movieCd = $(sData[i]).find("movieCd").text();
+							var movieNm = $(sData[i]).find("movieNm").text();
+							var openDt = $(sData[i]).find("openDt").text();
+							var genreAlt = $(sData[i]).find("genreAlt").text();
+							var peopleNm = $(sData[i]).find("peopleNm").text();
+							var companyNm = $(sData[i]).find("companyNm").text();
 							
-						},
-						error:function(){
-							alert("데이터 실패");
-						}
+							hData += "<tr>";
+							hData += "<td>"+movieCd+"</td>";
+							hData += "<td>"+movieNm+"</td>";
+							hData += "<td>"+openDt+"</td>";
+							hData += "<td>"+genreAlt+"</td>";
+							hData += "<td>"+peopleNm+"</td>";
+							hData += "<td>"+companyNm+"</td>";
+							hData += "</tr>";
+							
+						}//for
+						$("#cont").html(hData);
+						
+					},
+					error:function(){
+						alert("실패");
+					}
+					
+					
+					
+					
+					
 				});//ajax
 				
 				
 				
-				
-			});//jquery
+			});//제이쿼리
 		</script>
-		<style>
-			#pageNo{width: 120px; height: 40px; margin-top: 20px; float: right;}
-			
-		</style>
 	</head>
 	<body>
 		<nav id="top">
@@ -114,41 +105,30 @@
 					</div>
 				</div>
 			</div>
-			<div>
-				<select name="pageNo" id="pageNo">
-					<option value="10">10개씩</option>
-					<option value="20">20개씩</option>
-					<option value="30">30개씩</option>
-				</select>
-			</div>
 			<!-- 게시판 영역 -->
 			<div class="notice_conts">
 				<div class="tb_row">
 					<table>
 						<colgroup>
 						   <col width="10%">
-						   <col width="54%">
+						   <col width="37%">
 						   <col width="13%">
-						   <col width="13%">
+						   <col width="15%">
 						   <col width="10%">
+						   <col width="15%">
 						</colgroup>
 						<thead>
 							<tr>
 							<th>번호</th>
 							<th>제목</th>
-							<th>제작일</th>
-							<th>관광장소</th>
-							<th>이미지</th>
+							<th>개봉일</th>
+							<th>장르</th>
+							<th>감독</th>
+							<th>제작사</th>
 						</tr>
 						</thead>
 						<tbody id="cont">
-							<tr>
-							<td>1</td>
-							<td><a href="#">CJONE포인트,기프트카드사용 일시중단 안내[22.11.22(화) 02:00~07:00]</a></td>
-							<td>관리자</td>
-							<td>2022-11-21</td>
-							<td>100</td>
-						</tr>
+							
 						</tbody>
 						
 						
